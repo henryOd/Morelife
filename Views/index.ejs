@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Team Generator</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Football Team Generator</h1>
+            <p>Enter player names and form your football teams</p>
+        </div>
+
+        <div class="form-container">
+            <form action="/addPlayer" method="POST">
+                <input type="text" id="playerName" name="playerName" placeholder="Enter player name" required>
+                <button type="submit">Add Player</button>
+            </form>
+
+        </div>
+
+        <div class="players-list">
+            <h2>Players:</h2>
+
+            <ul>
+                <% players.forEach(function(player, index) { %>
+                    <li>
+                        <%= player %>
+                        <form action="/removePlayer" method="POST" style="display:inline;">
+                            <input type="hidden" name="playerIndex" value="<%= index %>">
+                            <button type="submit">Remove</button>
+                        </form>
+                    </li>
+                <% }); %>
+            </ul>
+            
+        </div>
+        
+        <% if (message) { %>
+            <p style="color: red;"><%= message %></p>
+        <% } %>
+    
+        <% if (players.length >= 8) { %>
+            <form action="/formTeams" method="POST">
+                <label for="playersPerTeam">Players per Team:</label>
+                <select name="playersPerTeam">
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+                <button type="submit">Form Teams</button>
+            </form>
+        <% } %>
+    
+        <% if (teams && teams.length > 0) { %>
+            <h2>Teams</h2>
+            <div class="teams-list">
+                <% teams.forEach(function(team) { %>
+                    <h3><%= team.name %></h3>
+                    <ul>
+                        <% team.players.forEach(function(player) { %>
+                            <li><%= player %></li>
+                        <% }); %>
+                    </ul>
+                <% }); %>
+            </div>
+        <% } %>
+    </div>
+</body>
+
+
+<script src="/js/main.js"></script>
+</html>
+
+
